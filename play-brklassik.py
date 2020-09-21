@@ -4,7 +4,7 @@ import urllib
 
 target_device = "Dave's Chromecast"
 
-url = "https://br-edge-10aa-fra-dtag-cdn.cast.addradio.de/br/brklassik/live/mp3/128/stream.mp3"
+url = "https://br-brklassik-live.cast.addradio.de/br/brklassik/live/mp3/high"
 
 if len(sys.argv) > 0:
     url = sys.argv[1]
