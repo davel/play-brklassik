@@ -21,7 +21,7 @@ services, browser = pychromecast.discovery.discover_chromecasts()
 chromecasts, browser = pychromecast.get_listed_chromecasts(friendly_names=[target_device])
 
 print(chromecasts)
-cast = next(cc for cc in chromecasts if cc.device.friendly_name == target_device)
+cast = chromecasts[0] if len(chromecasts)==1 else next(cc for cc in chromecasts if cc.device.friendly_name == target_device)
 
 cast.wait()
 print(cast.device)
