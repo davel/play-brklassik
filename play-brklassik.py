@@ -1,6 +1,7 @@
 import sys
 import pychromecast
-import urllib
+import aiohttp
+import asyncio
 
 target_device = "Dave's new Chromecast"
 
@@ -9,11 +10,23 @@ url = "https://br-brklassik-live.cast.addradio.de/br/brklassik/live/mp3/high"
 if len(sys.argv) > 1:
     url = sys.argv[1]
 
-req_head =  urllib.request.Request(url, method="HEAD")
+async def main(url):
+   async with aiohttp.ClientSession() as session:
+        async with session.get(url) as response:
+            if response.status >= 300 and response.status <= 304:
+                print("Bouncing to {}".format(response.headers['Location']))
+                await main(response.headers['Location'])
+            elif response.status == 200:
+                print("Have 200!")
+                print(response.headers['Content-Type'])
+                return response.headers['Content-Type']
+            else:
+                raise Exception("Bad status {}".format(response.status))
 
-resp = urllib.request.urlopen(req_head)
+fmt = loop = asyncio.get_event_loop()
+loop.run_until_complete(main(url))
 
-fmt = resp.getheader("Content-Type")
+print(fmt)
 
 pychromecast.IGNORE_CEC.append(target_device)  # Ignore CEC on Chromecasts named Living Room
 

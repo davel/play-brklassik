@@ -1,1 +1,3 @@
 pychromecast
+aiohttp
+asyncio
