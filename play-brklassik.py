@@ -23,8 +23,8 @@ async def main(url):
             else:
                 raise Exception("Bad status {}".format(response.status))
 
-fmt = loop = asyncio.get_event_loop()
-loop.run_until_complete(main(url))
+loop = asyncio.get_event_loop()
+fmt = loop.run_until_complete(main(url))
 
 print(fmt)
 
